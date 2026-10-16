@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="#2a0845" />
+      <stop offset="50%" stop-color="#0e0a1a" />
+      <stop offset="100%" stop-color="#080a0f" />
+    </radialGradient>
+    <linearGradient id="portalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f43f5e" />
+      <stop offset="40%" stop-color="#dc2626" />
+      <stop offset="80%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#ec4899" />
+    </linearGradient>
+    <linearGradient id="bladeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#67e8f9" />
+      <stop offset="50%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#818cf8" />
+    </linearGradient>
+    <filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="16" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background rounded canvas -->
+  <rect width="512" height="512" rx="112" fill="url(#bgGlow)" />
+  <rect width="512" height="512" rx="112" fill="none" stroke="url(#portalGrad)" stroke-width="6" opacity="0.4" />
+
+  <!-- Outer Kaiju Portal Ring -->
+  <circle cx="256" cy="256" r="190" fill="none" stroke="url(#portalGrad)" stroke-width="14" stroke-dasharray="24 16" filter="url(#neonGlow)" opacity="0.85" />
+  <circle cx="256" cy="256" r="165" fill="none" stroke="#f43f5e" stroke-width="3" opacity="0.3" />
+
+  <!-- Inner Shuriken / Cinematic Aperture Blades -->
+  <g opacity="0.25">
+    <line x1="256" y1="40" x2="256" y2="472" stroke="#fff" stroke-width="2" stroke-dasharray="10 20" />
+    <line x1="40" y1="256" x2="472" y2="256" stroke="#fff" stroke-width="2" stroke-dasharray="10 20" />
+  </g>
+
+  <!-- Main Play Triangle / Katana Slash Glyph -->
+  <g filter="url(#neonGlow)">
+    <!-- Play Triangle base -->
+    <path d="M 210,165 L 340,256 L 210,347 Z" fill="url(#portalGrad)" />
+    
+    <!-- Lightning / Anime Katana Slash cutting across the play button -->
+    <path d="M 160,190 L 320,240 L 250,265 L 370,325 L 330,335 L 230,290 L 280,265 L 150,210 Z" fill="url(#bladeGrad)" opacity="0.95" />
+    
+    <!-- Central Core Energy Orb -->
+    <circle cx="256" cy="256" r="18" fill="#ffffff" />
+    <circle cx="256" cy="256" r="28" fill="#67e8f9" opacity="0.4" />
+  </g>
+
+  <!-- Cinema Reel Markers -->
+  <circle cx="120" cy="120" r="14" fill="#dc2626" opacity="0.8" />
+  <circle cx="392" cy="120" r="14" fill="#f59e0b" opacity="0.8" />
+  <circle cx="120" cy="392" r="14" fill="#f43f5e" opacity="0.8" />
+  <circle cx="392" cy="392" r="14" fill="#818cf8" opacity="0.8" />
+</svg>
