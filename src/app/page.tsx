@@ -127,7 +127,7 @@ export default function Home() {
               },
             },
             secondary: {
-              text: "Simuler mon Tarif Fapshi",
+              text: "Simuler mon Tarif Sebpay",
               onClick: () => setIsBillingOpen(true),
             },
           }}
@@ -304,8 +304,8 @@ export default function Home() {
               onViewMore={() => setIsBillingOpen(true)}
             />
             <GlassCard
-              title="Orange & MTN"
-              description="Paiements locaux et instantanés via Fapshi Mobile Money sans carte bancaire ni abonnement contraignant."
+              title="Orange, MTN & Wave"
+              description="Paiements locaux et instantanés via Sebpay Mobile Money sans carte bancaire ni abonnement contraignant."
               onViewMore={() => setIsBillingOpen(true)}
             />
           </div>
@@ -341,7 +341,7 @@ export default function Home() {
         />
       )}
 
-      {/* Billing & Fapshi Pass Modal */}
+      {/* Billing & Sebpay Pass Modal */}
       <BillingPassModal
         isOpen={isBillingOpen}
         onClose={() => setIsBillingOpen(false)}

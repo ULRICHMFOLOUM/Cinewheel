@@ -11,7 +11,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "KAIJU STREAM — CinéWheel Streaming PWA",
   description: "Plateforme PWA de streaming et téléchargement de films, séries, animes et isekai en Afrique centrale (Cameroun). 100 FCFA/h, plafond 1000 FCFA.",
-  keywords: ["streaming", "anime", "isekai", "films", "séries", "cameroun", "fapshi", "mobile money"],
+  keywords: ["streaming", "anime", "isekai", "films", "séries", "cameroun", "sebpay", "mobile money"],
   manifest: "/manifest.webmanifest",
 };
 

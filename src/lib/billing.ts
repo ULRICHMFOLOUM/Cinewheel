@@ -1,6 +1,6 @@
 /**
  * KAIJU STREAM - Moteur de Facturation & Plans d'Abonnement (FCFA / XAF)
- * Spécifiquement calibré pour l'Afrique centrale (Cameroun, Gabon, Congo - Orange Money & MTN MoMo via Fapshi)
+ * Spécifiquement calibré pour l'Afrique centrale et de l'ouest (Orange Money, MTN MoMo, Moov, Wave via Sebpay Africa)
  */
 
 export interface PricingPlan {

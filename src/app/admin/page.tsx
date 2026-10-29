@@ -46,10 +46,12 @@ import {
 } from "@/lib/catalog";
 
 export default function AdminDashboardPage() {
-  const [activeTab, setActiveTab] = useState<"catalog" | "seasons" | "stats" | "fapshi" | "tarifs">("catalog");
+  const [activeTab, setActiveTab] = useState<"catalog" | "seasons" | "stats" | "sebpay" | "tarifs">("catalog");
   const [catalog, setCatalog] = useState<MediaItem[]>([]);
   const [categoryFilter, setCategoryFilter] = useState<"all" | "anime" | "film" | "serie">("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [sebpayTestResult, setSebpayTestResult] = useState<any>(null);
+  const [isTestingSebpay, setIsTestingSebpay] = useState(false);
 
   // Saisons & Épisodes
   const [selectedItemForSeasons, setSelectedItemForSeasons] = useState<MediaItem | null>(null);
@@ -333,7 +335,7 @@ export default function AdminDashboardPage() {
               Gestionnaire Vidéo & Dossiers de Saisons
             </h1>
             <p className="text-xs text-white/50 max-w-2xl">
-              Classez vos films réels et animes par catégorie, organisez les saisons en dossiers interactifs et pilotez la facturation Fapshi.
+              Classez vos films réels et animes par catégorie, organisez les saisons en dossiers interactifs et pilotez la facturation Sebpay Africa.
             </p>
           </div>
 
@@ -387,7 +389,7 @@ export default function AdminDashboardPage() {
             { id: "catalog", label: "Catalogue & Catégories (Films / Animes)", icon: Film, count: catalog.length },
             { id: "seasons", label: "📁 Dossiers de Saisons & Épisodes", icon: Folder },
             { id: "stats", label: "Statistiques & Revenus (FCFA)", icon: TrendingUp },
-            { id: "fapshi", label: "Paiements Fapshi (Orange / MTN)", icon: Smartphone },
+            { id: "sebpay", label: "Paiements Sebpay Africa (Orange / MTN / Wave)", icon: Smartphone },
             { id: "tarifs", label: "Tarifs & Plafond 1000F", icon: DollarSign },
           ].map(({ id, label, icon: Icon, count }) => (
             <button
@@ -763,37 +765,154 @@ export default function AdminDashboardPage() {
           </div>
         )}
 
-        {/* TAB 4: FAPSHI GATEWAY */}
-        {activeTab === "fapshi" && (
-          <div className="mt-8 rounded-2xl border border-white/10 bg-[#0d0f16] p-6 max-w-2xl">
-            <h3 className="text-lg font-black text-white flex items-center gap-2">
-              <Smartphone className="h-5 w-5 text-red-500" />
-              <span>Passerelle Fapshi Mobile Money</span>
-            </h3>
-            <p className="mt-1 text-xs text-white/50">
-              Collecte instantanée Orange Money et MTN Mobile Money en Afrique Centrale.
-            </p>
+        {/* TAB 4: SEBPAY GATEWAY */}
+        {activeTab === "sebpay" && (
+          <div className="mt-8 rounded-2xl border border-white/10 bg-[#0d0f16] p-6 max-w-3xl">
+            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4">
+              <div>
+                <h3 className="text-lg font-black text-white flex items-center gap-2">
+                  <span className="flex h-2.5 w-2.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <Smartphone className="h-5 w-5 text-red-500" />
+                  <span>Passerelle Sebpay Africa (Production Live)</span>
+                </h3>
+                <p className="mt-1 text-xs text-white/50">
+                  Orchestrateur multi-pays : Orange Money, MTN MoMo, Moov Money, Wave.
+                </p>
+              </div>
+              <a
+                href="https://new.sebpay.bj"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-xl border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white hover:bg-white/10 transition"
+              >
+                <span>Dashboard new.sebpay.bj</span>
+                <Eye className="h-3.5 w-3.5" />
+              </a>
+            </div>
+
             <div className="mt-6 space-y-4 text-xs">
-              <div>
-                <label className="block text-white/70 mb-1 font-semibold">API Key Fapshi (Production) :</label>
-                <input
-                  type="password"
-                  value="fp_live_9a87bc654e3210fe"
-                  readOnly
-                  className="w-full rounded-xl border border-white/10 bg-black/40 p-2.5 text-white/60 font-mono"
-                />
+              {/* Live Status Banner */}
+              <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-3.5 flex items-center justify-between">
+                <div className="flex items-center gap-2 text-emerald-300">
+                  <CheckCircle2 className="h-4 w-4 shrink-0" />
+                  <span>Passerelle active avec vos clés de Production Sebpay.</span>
+                </div>
+                <button
+                  type="button"
+                  disabled={isTestingSebpay}
+                  onClick={async () => {
+                    setIsTestingSebpay(true);
+                    try {
+                      const res = await fetch("/api/payments/sebpay/connectivity");
+                      const data = await res.json();
+                      setSebpayTestResult(data);
+                    } catch (e: any) {
+                      setSebpayTestResult({ connected: false, message: e.message });
+                    } finally {
+                      setIsTestingSebpay(false);
+                    }
+                  }}
+                  className="rounded-lg bg-emerald-600 px-3 py-1 text-[11px] font-bold text-white hover:bg-emerald-500 transition disabled:opacity-50"
+                >
+                  {isTestingSebpay ? "Test en cours..." : "Tester la connexion API en direct"}
+                </button>
               </div>
+
+              {/* Test connectivity result */}
+              {sebpayTestResult && (
+                <div className={`rounded-xl border p-3.5 ${
+                  sebpayTestResult.ipWhitelisted
+                    ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
+                    : sebpayTestResult.hasValidKeys
+                    ? "border-amber-500/30 bg-amber-500/10 text-amber-200"
+                    : "border-red-500/30 bg-red-500/10 text-red-300"
+                }`}>
+                  <div className="font-bold mb-1 flex items-center gap-2">
+                    <AlertCircle className="h-4 w-4 shrink-0" />
+                    <span>Résultat du test Sebpay :</span>
+                  </div>
+                  <div className="text-[11px] leading-relaxed">
+                    {sebpayTestResult.message}
+                  </div>
+                  {!sebpayTestResult.ipWhitelisted && sebpayTestResult.hasValidKeys && (
+                    <div className="mt-2 text-[10px] text-white/70 bg-black/40 rounded-lg p-2 font-mono">
+                      IP à ajouter dans le Dashboard Sebpay : <strong>{sebpayTestResult.currentIp || "143.105.152.209"}</strong>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Public Key */}
               <div>
-                <label className="block text-white/70 mb-1 font-semibold">Webhook URL :</label>
-                <input
-                  type="text"
-                  value="https://cinewheel.com/api/webhooks/fapshi"
-                  readOnly
-                  className="w-full rounded-xl border border-white/10 bg-black/40 p-2.5 text-white/60 font-mono"
-                />
+                <label className="block text-white/70 mb-1 font-semibold">Clé Publique Live (X-Public-Key) :</label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={process.env.NEXT_PUBLIC_SEBPAY_PUBLIC_KEY || "pk_live_1HPeXuVFzlnGc8lw7P7cFa6KeakKkifKdQrloiUQ"}
+                    readOnly
+                    className="w-full rounded-xl border border-white/10 bg-black/40 p-2.5 text-white/80 font-mono text-xs"
+                  />
+                </div>
               </div>
-              <div className="rounded-xl bg-emerald-500/10 border border-emerald-500/30 p-3 text-emerald-300">
-                ✓ Webhook synchronisé : reversements automatiques 50 FCFA / téléchargement et 100 FCFA / heure.
+
+              {/* Secret Key */}
+              <div>
+                <label className="block text-white/70 mb-1 font-semibold">Clé Secrète Live (X-Secret-Key) :</label>
+                <div className="flex gap-2">
+                  <input
+                    type="password"
+                    value="••••••••••••••••••••••••••••••••"
+                    readOnly
+                    className="w-full rounded-xl border border-white/10 bg-black/40 p-2.5 text-white/80 font-mono text-xs"
+                  />
+                  <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-emerald-400 text-xs font-semibold flex items-center gap-1.5 whitespace-nowrap">
+                    <CheckCircle2 className="h-3.5 w-3.5" />
+                    <span>Sécurisée (.env.local)</span>
+                  </div>
+                </div>
+                <p className="mt-1 text-[10px] text-white/40">
+                  Stockée en toute sécurité dans .env.local côté serveur Next.js. Jamais exposée dans le dépôt Git public.
+                </p>
+              </div>
+
+              {/* Server IP Whitelist Notice */}
+              <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-amber-300">Adresse IP du Serveur à autoriser :</span>
+                  <span className="font-mono bg-black/50 px-2 py-0.5 rounded text-amber-400 font-bold">
+                    143.105.152.209
+                  </span>
+                </div>
+                <p className="mt-2 text-[11px] text-white/70 leading-relaxed">
+                  Sebpay Africa protège vos clés par restriction IP. Pour que les débits réels s&apos;exécutent sans blocage, rendez-vous sur{" "}
+                  <a href="https://new.sebpay.bj" target="_blank" rel="noreferrer" className="text-amber-400 underline font-semibold">
+                    new.sebpay.bj
+                  </a>{" "}
+                  &gt; Paramètres API &gt; Adresses IP autorisées et ajoutez <code className="text-white bg-black/40 px-1 py-0.5 rounded">143.105.152.209</code>.
+                </p>
+              </div>
+
+              {/* Webhook URL */}
+              <div>
+                <label className="block text-white/70 mb-1 font-semibold">URL de Webhook Sebpay (Callback) :</label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value="https://cinewheel.com/api/webhooks/sebpay"
+                    readOnly
+                    className="w-full rounded-xl border border-white/10 bg-black/40 p-2.5 text-white/80 font-mono text-xs"
+                  />
+                  <button
+                    onClick={() => navigator.clipboard.writeText("https://cinewheel.com/api/webhooks/sebpay")}
+                    className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-white/60 hover:text-white hover:bg-white/10 transition"
+                    title="Copier"
+                  >
+                    Copier
+                  </button>
+                </div>
+                <p className="mt-1 text-[10px] text-white/40">
+                  Renseignez cette URL dans votre compte Sebpay pour recevoir les événements <code className="text-white">payment.succeeded</code> en temps réel.
+                </p>
               </div>
             </div>
           </div>

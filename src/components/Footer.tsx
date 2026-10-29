@@ -2,7 +2,7 @@ import { Film, Shield, Smartphone, Heart } from "lucide-react";
 
 const FOOTER_LINKS = [
   { section: "Catalogue", links: ["Isekai & Animes", "Films Box-Office", "Séries Africaines & Mondiales", "Top 10 Semaine"] },
-  { section: "Tarification", links: ["Pass 100 FCFA / Heure", "Téléchargement 50 FCFA", "Garantie Plafond 1000 FCFA", "Fapshi Mobile Money"] },
+  { section: "Tarification", links: ["Pass 100 FCFA / Heure", "Téléchargement 50 FCFA", "Garantie Plafond 1000 FCFA", "Sebpay Mobile Money"] },
   { section: "Support & Légal", links: ["Signalement de contenu", "Conditions Générales (CGU)", "Confidentialité", "Mode Hors-ligne PWA"] },
 ];
 
@@ -29,7 +29,7 @@ export default function Footer() {
             </p>
             <div className="mt-4 flex items-center gap-2 text-[11px] text-emerald-400">
               <Shield className="h-3.5 w-3.5" />
-              <span>Paiement sécurisé Fapshi Cameroun</span>
+              <span>Paiement sécurisé Sebpay Africa</span>
             </div>
           </div>
 

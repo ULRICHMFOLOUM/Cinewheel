@@ -174,7 +174,7 @@ export default function TarifsPage() {
                 </div>
               )}
               <button onClick={() => setIsBillingOpen(true)} className="mt-4 w-full rounded-xl bg-gradient-to-r from-red-600 to-amber-600 py-2.5 text-xs font-bold text-white hover:brightness-110 transition">
-                Payer maintenant via Fapshi
+                Payer maintenant via Sebpay (Orange / MTN)
               </button>
             </div>
           </div>

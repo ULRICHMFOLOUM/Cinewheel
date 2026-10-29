@@ -374,7 +374,7 @@ export default function VideoPlayerModal({
         <div className="flex flex-wrap items-center justify-between gap-3 bg-[#08090d] px-5 py-2.5 text-[11px] text-white/60 border-t border-white/5">
           <div className="flex items-center gap-2">
             <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
-            <span>Streaming HLS sécurisé Fapshi (Orange Money & MTN MoMo)</span>
+            <span>Streaming HLS sécurisé Sebpay (Orange Money & MTN MoMo)</span>
           </div>
           <button
             onClick={handleWhatsappShare}
